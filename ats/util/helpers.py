@@ -2,6 +2,8 @@
 import json
 import ssl
 
+import jsonschema
+
 import aiohttp
 import aiohttp.web
 
@@ -20,6 +22,19 @@ async def authenticated_userid(request):
         request['slog'] = request['slog'].bind(uid=userid)
 
     return userid
+
+
+async def json_request(request, schema=None):
+    try:
+        js = await request.json()
+        if schema is not None:
+            try:
+                jsonschema.validate(js, schema)
+            except jsonschema.ValidationError as exc:
+                raise aiohttp.web.HTTPBadRequest(text='Malformed request: %s' % exc)
+        return js
+    except json.decoder.JSONDecodeError:
+        raise aiohttp.web.HTTPBadRequest(text='a json body is expected')
 
 
 def get_os_session(*, os_cacert, insecure, log):

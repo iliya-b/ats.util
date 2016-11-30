@@ -22,8 +22,9 @@ setup(
     author_email='aic-project@alterway.fr',
 
     install_requires=[
-        'colorlog',
         'aiohttp',
+        'colorlog',
+        'jsonschema',
         'pyflakes',
         'pyyaml',
         'structlog',
