@@ -7,12 +7,11 @@ import structlog
 import yaml
 
 
-class StructNullHandler(logging.Handler):
-    def emit(self, record, **kw):
-        pass
+class StructNullLogger(logging.Handler):
+    def __getattr__(self, whatevs, *bla, **blabla):
+        return lambda *bla, **blabla: None
 
-nullog = logging.getLogger('devnull')
-nullog.addHandler(StructNullHandler())
+nullog = StructNullLogger()
 
 
 def setup_logging(config):
