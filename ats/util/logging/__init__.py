@@ -7,6 +7,14 @@ import structlog
 import yaml
 
 
+class StructNullHandler(logging.Handler):
+    def emit(self, record, **kw):
+        pass
+
+nullog = logging.getLogger('devnull')
+nullog.addHandler(StructNullHandler())
+
+
 def setup_logging(config):
     if config['log']['jsonformat']:
         template = 'logging-json.yaml'
