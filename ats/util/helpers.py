@@ -43,7 +43,7 @@ def get_os_session(*, os_cacert, insecure, log):
     on configuration settings.
     Works for both HTTP and HTTPS endpoints.
     """
-    if os_cacert:
+    if os_cacert and os_cacert != "None":
         ssl_context = ssl.create_default_context(cafile=os_cacert)
         return aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl_context=ssl_context))
 
